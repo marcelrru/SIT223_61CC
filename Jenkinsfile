@@ -81,4 +81,4 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production using AWS CLI and Docker...'
-                sh 'echo "Deploy
+                sh 'echo "Deploy'
