@@ -5,30 +5,29 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code using Maven...'
-                sh 'echo "Build log: Build started" > build.log'
+                // Simulate build process
+                sh 'echo "Build started"'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Performing Unit and Integration Tests using JUnit, TestNG, Mockito, and Selenium...'
-                sh 'echo "Unit Tests log: All tests passed" > test.log'
+                // Simulate tests
+                sh 'echo "Tests completed"'
             }
             post {
                 success {
                     script {
-                        // Read log file content
-                        def logContent = readFile('test.log')
-                        
-                        // Send email with log content in the body
-                        mail to: 'marcelru27@gmail.com',
-                             subject: 'Stage Status Email - Unit and Integration Tests Success',
+                        def buildLog = currentBuild.rawBuild.log.join('\n')
+                        mail to: "marcelru27@gmail.com",
+                             subject: "Stage Status Email: Unit and Integration Tests",
                              body: """\
-                                 Stage: Unit and Integration Tests
-                                 Status: Success
-                                 
-                                 Logs:
-                                 ${logContent}
-                                 """
+                             Stage: Unit and Integration Tests
+                             Status: Success
+                             Log:
+                             ${buildLog}
+                             """,
+                             attachLog: true
                     }
                 }
             }
@@ -36,30 +35,29 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Performing Code Analysis using SonarQube...'
-                sh 'echo "Code Analysis log: Analysis complete" > code-analysis.log'
+                // Simulate code analysis
+                sh 'echo "Code analysis completed"'
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing Security Scan using OWASP Dependency-Check...'
-                sh 'echo "Security Scan log: Scan complete" > security-scan.log'
+                // Simulate security scan
+                sh 'echo "Security scan completed"'
             }
             post {
                 success {
                     script {
-                        // Read log file content
-                        def logContent = readFile('security-scan.log')
-                        
-                        // Send email with log content in the body
-                        mail to: 'marcelru27@gmail.com',
-                             subject: 'Stage Status Email - Security Scan Success',
+                        def buildLog = currentBuild.rawBuild.log.join('\n')
+                        mail to: "marcelru27@gmail.com",
+                             subject: "Stage Status Email: Security Scan",
                              body: """\
-                                 Stage: Security Scan
-                                 Status: Success
-                                 
-                                 Logs:
-                                 ${logContent}
-                                 """
+                             Stage: Security Scan
+                             Status: Success
+                             Log:
+                             ${buildLog}
+                             """,
+                             attachLog: true
                     }
                 }
             }
@@ -67,19 +65,22 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to Staging using AWS CLI and Docker...'
-                sh 'echo "Deploy to Staging log: Deployment successful" > deploy-staging.log'
+                // Simulate deployment
+                sh 'echo "Deployment to staging completed"'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running Integration Tests on Staging using JUnit and Selenium...'
-                sh 'echo "Integration Tests log: All tests passed" > integration-tests.log'
+                // Simulate integration tests
+                sh 'echo "Integration tests on staging completed"'
             }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production using AWS CLI and Docker...'
-                sh 'echo "Deploy to Production log: Deployment successful" > deploy-production.log'
+                // Simulate production deployment
+                sh 'echo "Deployment to production completed"'
             }
         }
     }
