@@ -13,8 +13,8 @@ pipeline {
             }
             post {
                 success {
-                    mail to: "marcelru27@gmail.com"
-                    subject: "Build Status Email"
+                    mail to: "marcelru27@gmail.com",
+                    subject: "Build Status Email",
                     body: "Build was successful"
                 }
             }
@@ -30,8 +30,8 @@ pipeline {
             }
             post {
                success {
-                    mail to: "marcelru27@gmail.com"
-                    subject: "Build Status Email"
+                    mail to: "marcelru27@gmail.com",
+                    subject: "Build Status Email",
                     body: "Build was successful"
                 }
             }
