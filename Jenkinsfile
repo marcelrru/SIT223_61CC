@@ -28,7 +28,6 @@ pipeline {
                                 Status: Success
                                 """,
                             to: 'marcelru27@gmail.com',
-                            attachmentsPattern: '**/*.log',
                             attachLog: true
                         )
                     }
@@ -60,7 +59,6 @@ pipeline {
                                 Status: Success
                                 """,
                             to: 'marcelru27@gmail.com',
-                            attachmentsPattern: '**/*.log',
                             attachLog: true
                         )
                     }
