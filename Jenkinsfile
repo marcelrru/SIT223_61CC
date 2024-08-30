@@ -50,9 +50,13 @@ pipeline {
             post {
                 always {
                     script {
+                        // Archive log files
                         archiveArtifacts artifacts: '**/*.log', allowEmptyArchive: true
+
+                        // Determine the status of the stage
                         def status = currentBuild.currentResult
 
+                        // Send email with logs attached
                         emailext(
                             subject: "Stage Status Email - Security Scan ${status}",
                             body: """\
@@ -81,4 +85,8 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production using AWS CLI and Docker...'
-                sh 'echo "Deploy'
+                sh 'echo "Deploy to Production log" > deploy-production.log'
+            }
+        }
+    }
+}
