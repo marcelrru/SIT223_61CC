@@ -5,7 +5,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code using Maven...'
-                // Simulate build and create log file
                 sh 'echo "Build log" > build.log'
             }
         }
@@ -15,20 +14,23 @@ pipeline {
                 sh 'echo "Test log" > test.log'
             }
             post {
-                success {
+                always {
                     script {
                         // Archive log files
                         archiveArtifacts artifacts: '**/*.log', allowEmptyArchive: true
 
+                        // Determine the status of the stage
+                        def status = currentBuild.currentResult
+
                         // Send email with logs attached
                         emailext(
-                            subject: "Stage Status Email - Unit and Integration Tests Success",
+                            subject: "Stage Status Email - Unit and Integration Tests ${status}",
                             body: """\
                                 Stage: Unit and Integration Tests
-                                Status: Success
+                                Status: ${status}
                                 """,
                             to: 'marcelru27@gmail.com',
-                            attachLog: true
+                            attachmentsPattern: '**/*.log'
                         )
                     }
                 }
@@ -46,20 +48,19 @@ pipeline {
                 sh 'echo "Security Scan log" > security-scan.log'
             }
             post {
-                success {
+                always {
                     script {
-                        // Archive log files
                         archiveArtifacts artifacts: '**/*.log', allowEmptyArchive: true
+                        def status = currentBuild.currentResult
 
-                        // Send email with logs attached
                         emailext(
-                            subject: "Stage Status Email - Security Scan Success",
+                            subject: "Stage Status Email - Security Scan ${status}",
                             body: """\
                                 Stage: Security Scan
-                                Status: Success
+                                Status: ${status}
                                 """,
                             to: 'marcelru27@gmail.com',
-                            attachLog: true
+                            attachmentsPattern: '**/*.log'
                         )
                     }
                 }
@@ -80,8 +81,4 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production using AWS CLI and Docker...'
-                sh 'echo "Deploy to Production log" > deploy-production.log'
-            }
-        }
-    }
-}
+                sh 'echo "Deploy
