@@ -14,9 +14,13 @@ pipeline {
             post {
                 success {
                     mail to: "marcelru27@gmail.com",
-                    subject: "Build Status Email",
-                    body: "Build was successful"
+                    subject: "Stage Status Email",
+                    body: """\
+                    Stage: Unit and Integration Tests
+                    Status: Success
+                    """
                 }
+                
             }
         }
         stage('Code Analysis') {
@@ -31,8 +35,11 @@ pipeline {
             post {
                success {
                     mail to: "marcelru27@gmail.com",
-                    subject: "Build Status Email",
-                    body: "Build was successful"
+                    subject: "Stage Status Email",
+                    body: """\
+                    Stage: Security Scan
+                    Status: Success
+                    """
                 }
             }
         }
